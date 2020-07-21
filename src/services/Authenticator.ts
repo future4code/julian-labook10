@@ -4,7 +4,7 @@ interface AuthenticationData{
     id:string
 }
 export class Authenticator {
-    private static EXPIRE_IN = "1min"
+    private static EXPIRE_IN = "10min"
 
     generateToken(input: AuthenticationData): string{
         const token = jwt.sign(
