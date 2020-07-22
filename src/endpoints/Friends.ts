@@ -36,8 +36,8 @@ export const deleteFriendsEndpoint = async (req: Request, res: Response): Promis
 
         const friendsDb = new FriendsDatabase()
 
-        const validation = await friendsDb.buscarFriends(idToken, id)
-        const validationSecond = await friendsDb.buscarFriends(id, idToken)
+        const validation = await friendsDb.checkFriendship(idToken, id)
+        const validationSecond = await friendsDb.checkFriendship(id, idToken)
 
         if(!validation && !validationSecond){
             throw new Error("Voce não tem amizade com esta pessoa ;-;")
