@@ -2,7 +2,6 @@ import {Request, Response} from "express"
 import { GeneratorId } from "../services/GeneratorId"
 import { UserDatabase } from "../data/UserDatabase"
 import { HashManager } from "../services/HashManager"
-import { hash } from "bcryptjs"
 import {Authenticator} from "../services/Authenticator"
 
 export const createEndpoint = async(req: Request, res: Response): Promise<void>=>{
@@ -47,6 +46,8 @@ export const loginEndpoint = async (req: Request, res: Response):Promise<any> =>
         const userDb = new UserDatabase()
         const user = await userDb.getByEmail(email)
 
+        console.log(user.id)
+
         const hashManager = new HashManager()
         const passwordIsCorrect = hashManager.compare(password, user.password)
 
@@ -55,7 +56,7 @@ export const loginEndpoint = async (req: Request, res: Response):Promise<any> =>
         }
 
         const authenticator = new Authenticator()
-        const token = authenticator.generateToken(user.id)
+        const token = authenticator.generateToken({id: user.id})
 
         res.status(200).send({token: token})
 
