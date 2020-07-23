@@ -16,9 +16,16 @@ export const createFriendsEndpoint = async (req: Request, res: Response): Promis
         const idToken = authenticationData.id 
 
         const friendsDb = new FriendsDatabase()
+        const result = await friendsDb.checkFriendship(authenticationData.id, id)
+        console.log(result)
+
+        if(result[0]){
+            throw new Error("essa amizade ja existe")
+        }
         await friendsDb.create(idToken, id)
 
         res.status(200).send("amizade realizada")
+
     } catch (error) {
         res.status(400).send({error: error.message})
     }
