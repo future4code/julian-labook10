@@ -11,6 +11,8 @@ export class FriendsDatabase extends BaseDatabase{
                 id_friend_two: idFriendTwo
             })
             .into(FriendsDatabase.tableName)
+
+
         } catch (error) {
             console.log(error)
         }
@@ -30,16 +32,15 @@ export class FriendsDatabase extends BaseDatabase{
         }
     }
 
-    async buscarFriends(idFriendOne: string, idFriendTwo: string): Promise<any>{
+    async checkFriendship(idFriendOne: string, idFriendTwo: string): Promise<any>{
         try {
             const result = await this.getConnection()
-            .select("*")
-            .from(FriendsDatabase.tableName)
-            .where({
-                id_friend_one: idFriendOne,
-                id_friend_two: idFriendTwo
-            })
-
+            .raw(`
+            SELECT * 
+            FROM LaBookFriends as f
+            WHERE (f.id_friend_one = "${idFriendOne}" AND f.id_friend_two = "${idFriendTwo}")
+            OR  (f.id_friend_two = "${idFriendOne}" AND f.id_friend_one = "${idFriendTwo}");
+            `)
             return result[0]
         } catch (error) {
             console.log(error)
