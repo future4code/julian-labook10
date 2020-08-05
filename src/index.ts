@@ -4,10 +4,20 @@ import express from "express"
 import {userRouter} from "../src/router/UserRouter"
 import {friendsRouter} from "../src/router/FriendsRouter"
 import {postsRouter} from "../src/router/PostsRouter"
+import cors from "cors" 
+
+
+// 
+
+
 
 dotenv.config();
 
-const app = express()
+export const app = express()
+
+
+app.use(cors({ origin: true})) 
+app.use(express.json()) 
 
 app.use(express.json())
 
